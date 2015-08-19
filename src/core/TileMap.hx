@@ -53,4 +53,19 @@ class TileMap extends Sprite
 		}
 	}
 	
+	public function drawMapFromCsv(mapPath:String)
+	{
+		var contents = Assets.getText(mapPath);
+		
+		var rows:Array<String> = contents.split("\n");
+		for (i in 0...rows.length)
+		{
+			var columns:Array<String> = rows[i].split(",");
+			for (j in 0...columns.length)
+			{
+				_tilesheet.drawTiles(graphics, [i * offsetX, j * offsetY, Std.parseFloat(columns[j])]);
+			}
+		}
+	}
+	
 }

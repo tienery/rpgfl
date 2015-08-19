@@ -30,13 +30,14 @@ class Main extends Sprite
 	private var _inited:Bool;
 	private var _txtField:TextField;
 	private var _map:TileMap;
+	private var _camera:Sprite;
 	
 	public function new() 
 	{
 		super();
 		
-		//_baseWidth = Lib.current.stage.stageWidth;
-		//_baseHeight = Lib.current.stage.stageHeight;
+		_baseWidth = Lib.current.stage.stageWidth;
+		_baseHeight = Lib.current.stage.stageHeight;
 		//
 		//_planets = Assets.getBitmapData("img/Planets.png");
 		//
@@ -62,9 +63,17 @@ class Main extends Sprite
 		
 		_map = new TileMap(Assets.getBitmapData("img/tilesets/32x32_ortho_dungeon_tile_Denzi110515-1.png"));
 		_map.init("info/dungeonTiles.json");
-		_map.drawMap("info/dungeonMap.json");
+		_map.drawMapFromCsv("info/dungeonMap.json");
 		
-		addChild(_map);
+		_camera = new Sprite();
+		var cameraWidth = _map.offsetX * 15;
+		var cameraHeight = _map.offsetY * 12;
+		_camera.scrollRect = new Rectangle(0, 0, cameraWidth, cameraHeight);
+		_camera.addChild(_map);
+		_camera.x = Lib.current.stage.stageWidth / 2 - cameraWidth / 2;
+		_camera.y = Lib.current.stage.stageHeight / 2 - cameraHeight / 2;
+		
+		addChild(_camera);
 		
 		timeStarted = 0;
 		
@@ -78,15 +87,15 @@ class Main extends Sprite
 		
 		Lib.current.stage.addEventListener(Event.RESIZE, function(e)
 		{
-			//if (!_inited)
-			//{
-				//_inited	= true;
-			//}
-			//else 
-			//{
-				//scaleX = Lib.current.stage.stageWidth / _baseWidth;
-				//scaleY = Lib.current.stage.stageHeight / _baseHeight;
-			//}
+			if (!_inited)
+			{
+				_inited	= true;
+			}
+			else 
+			{
+				scaleX = Lib.current.stage.stageWidth / _baseWidth;
+				scaleY = Lib.current.stage.stageHeight / _baseHeight;
+			}
 		});
 		
 	}
