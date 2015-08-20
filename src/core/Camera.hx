@@ -20,7 +20,7 @@ class Camera extends Sprite
 		this.renderWidth = renderWidth;
 		this.renderHeight = renderHeight;
 		
-		scrollRect = new Rectangle(0, 0, renderWidth, renderWidth);
+		scrollRect = new Rectangle(0, 0, renderWidth, renderHeight);
 		
 		addChild(_currentScene);
 	}
@@ -32,7 +32,7 @@ class Camera extends Sprite
 	
 	public function move(x:Float, y:Float):Void
 	{
-		scrollRect = new Rectangle(x, y, renderWidth, renderWidth);
+		scrollRect = new Rectangle(x, y, renderWidth, renderHeight);
 	}
 	
 	
