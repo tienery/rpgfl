@@ -1,5 +1,6 @@
 package;
 
+import core.Camera;
 import core.TileMap;
 import openfl.geom.Point;
 import openfl.geom.Rectangle;
@@ -30,7 +31,9 @@ class Main extends Sprite
 	private var _inited:Bool;
 	private var _txtField:TextField;
 	private var _map:TileMap;
-	private var _camera:Sprite;
+	private var _camera:Camera;
+	private var _cX:Float;
+	private var _cY:Float;
 	
 	public function new() 
 	{
@@ -38,40 +41,17 @@ class Main extends Sprite
 		
 		_baseWidth = Lib.current.stage.stageWidth;
 		_baseHeight = Lib.current.stage.stageHeight;
-		//
-		//_planets = Assets.getBitmapData("img/Planets.png");
-		//
-		//_render = new BitmapData(_planets.width, _planets.height, true, 0xFF000000);
-		//_render.copyPixels(_planets, new Rectangle(0, 0, _planets.width, _planets.height), new Point());
-		//
-		//_object = new Bitmap(_render);
-		//
-		//_object.scaleX = Lib.current.stage.stageWidth / _object.width;
-		//_object.scaleY = Lib.current.stage.stageHeight / _object.height;
-		//
-		//_txtField = new TextField();
-		//_txtField.defaultTextFormat = new TextFormat(Assets.getFont("font/OpenSans-Bold.ttf").fontName, 32, 0xFFFFFF);
-		//_txtField.embedFonts = true;
-		//_txtField.autoSize = TextFieldAutoSize.LEFT;
-		//_txtField.selectable = false;
-		//_txtField.text = "RPGFL Tutorial";
-		//_txtField.x = _baseWidth / 2 - _txtField.width / 2;
-		//_txtField.y = 10;
-		//
-		//addChild(_object);
-		//addChild(_txtField);
 		
 		_map = new TileMap(Assets.getBitmapData("img/tilesets/32x32_ortho_dungeon_tile_Denzi110515-1.png"));
 		_map.init("info/dungeonTiles.json");
 		_map.drawMapFromCsv("info/dungeonMap.json");
 		
-		_camera = new Sprite();
-		var cameraWidth = _map.offsetX * 15;
-		var cameraHeight = _map.offsetY * 12;
-		_camera.scrollRect = new Rectangle(0, 0, cameraWidth, cameraHeight);
-		_camera.addChild(_map);
-		_camera.x = Lib.current.stage.stageWidth / 2 - cameraWidth / 2;
-		_camera.y = Lib.current.stage.stageHeight / 2 - cameraHeight / 2;
+		var maxWidth = _map.offsetX * 15;
+		var maxHeight = _map.offsetY * 12;
+		
+		_camera = new Camera(_map, maxWidth, maxHeight);
+		_cX = _camera.x = _baseWidth / 2 - _camera.renderWidth / 2;
+		_cY = _camera.y = _baseHeight / 2 - _camera.renderHeight / 2;
 		
 		addChild(_camera);
 		
@@ -83,6 +63,10 @@ class Main extends Sprite
 			var deltaTime = elapsed - timeStarted;
 			timeStarted = elapsed;
 			
+			var speed = 0.05;
+			
+			//_camera.move(speed * deltaTime + _camera.scrollRect.x, speed * deltaTime + _camera.scrollRect.y);
+			
 		});
 		
 		Lib.current.stage.addEventListener(Event.RESIZE, function(e)
@@ -93,8 +77,12 @@ class Main extends Sprite
 			}
 			else 
 			{
-				scaleX = Lib.current.stage.stageWidth / _baseWidth;
-				scaleY = Lib.current.stage.stageHeight / _baseHeight;
+				_camera.scaleX = Lib.current.stage.stageWidth / _baseWidth;
+				_camera.scaleY = Lib.current.stage.stageHeight / _baseHeight;
+				
+				_camera.x = _cX;
+				_camera.y = _cY;
+				
 			}
 		});
 		
