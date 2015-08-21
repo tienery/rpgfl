@@ -23,8 +23,6 @@ class Main extends Sprite
 {
 	
 	private var timeStarted:Int;
-	private var _object:Bitmap;
-	private var _planets:BitmapData;
 	private var _render:BitmapData;
 	private var _baseWidth:Int;
 	private var _baseHeight:Int;
@@ -32,8 +30,10 @@ class Main extends Sprite
 	private var _txtField:TextField;
 	private var _map:TileMap;
 	private var _camera:Camera;
-	private var _cX:Float;
-	private var _cY:Float;
+	private var _ratioX:Float;
+	private var _ratioY:Float;
+	private var _ratioWidth:Float;
+	private var _ratioHeight:Float;
 	
 	public function new() 
 	{
@@ -50,8 +50,12 @@ class Main extends Sprite
 		var maxHeight = _map.offsetY * 12;
 		
 		_camera = new Camera(_map, maxWidth, maxHeight);
-		_cX = _camera.x = _baseWidth / 2 - _camera.renderWidth / 2;
-		_cY = _camera.y = _baseHeight / 2 - _camera.renderHeight / 2;
+		_camera.x = _baseWidth / 2 - maxWidth / 2;
+		_camera.y = _baseHeight / 2 - maxHeight / 2;
+		_ratioX = _camera.x / _baseWidth;
+		_ratioY = _camera.y / _baseHeight;
+		_ratioWidth = maxWidth / _baseWidth;
+		_ratioHeight = maxHeight / _baseHeight;
 		
 		addChild(_camera);
 		
@@ -63,9 +67,6 @@ class Main extends Sprite
 			var deltaTime = elapsed - timeStarted;
 			timeStarted = elapsed;
 			
-			var speed = 0.05;
-			
-			//_camera.move(speed * deltaTime + _camera.scrollRect.x, speed * deltaTime + _camera.scrollRect.y);
 			
 		});
 		
@@ -77,12 +78,9 @@ class Main extends Sprite
 			}
 			else 
 			{
-				_camera.scaleX = Lib.current.stage.stageWidth / _baseWidth;
-				_camera.scaleY = Lib.current.stage.stageHeight / _baseHeight;
-				
-				_camera.x = _cX;
-				_camera.y = _cY;
-				
+				_camera.x = _ratioX * stage.stageWidth;
+				_camera.y = _ratioY * stage.stageHeight;
+				_camera.resize(_ratioWidth, _ratioHeight);
 			}
 		});
 		

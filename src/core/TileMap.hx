@@ -63,7 +63,11 @@ class TileMap extends Sprite
 			var columns:Array<String> = rows[i].split(",");
 			for (j in 0...columns.length)
 			{
-				_tilesheet.drawTiles(graphics, [i * offsetX, j * offsetY, Std.parseFloat(columns[j])]);
+				var value = Std.parseFloat(columns[j]);
+				if (value > -1)
+				{
+					_tilesheet.drawTiles(graphics, [j * offsetY, i * offsetX, value]);
+				}
 			}
 		}
 	}
