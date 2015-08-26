@@ -1,7 +1,9 @@
 package;
 
 import core.Camera;
+import core.Player;
 import core.TileMap;
+import core.Unit;
 import openfl.geom.Point;
 import openfl.geom.Rectangle;
 import openfl.utils.Timer;
@@ -34,6 +36,7 @@ class Main extends Sprite
 	private var _ratioY:Float;
 	private var _ratioWidth:Float;
 	private var _ratioHeight:Float;
+	private var _player:Player;
 	
 	public function new() 
 	{
@@ -45,6 +48,9 @@ class Main extends Sprite
 		_map = new TileMap(Assets.getBitmapData("img/tilesets/32x32_ortho_dungeon_tile_Denzi110515-1.png"));
 		_map.init("info/dungeonTiles.json");
 		_map.drawMapFromCsv("info/dungeonMap.json");
+		
+		_player = new Player("img/spritesheets/healer_f.png", "info/playerAnimation.json");
+		_player.draw(_map, 64, 64);
 		
 		var maxWidth = _map.offsetX * 15;
 		var maxHeight = _map.offsetY * 12;
