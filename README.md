@@ -1,9 +1,13 @@
 # rpgfl
 RPGFL is a tutorial series and will eventually become an engine/editor in-one.
 
-## Copyright
+This engine is under the LGPL license, using only resources compatible with commercial or non-commercial terms for academic reasons.
+Except for the resources used in this demo/engine, any code contributions you make must be made under the LGPL license, unless you use the engine for linking to a project of your own.
+
+## Copyright Information
 
 DENZI's tilesheet art assets are licensed under CC0, and can be found [here](http://opengameart.org/content/denzis-public-domain-art).
+Antifarea's spritesheets for character animations are licensed under CC-BY-3.0, and can be found [here](http://opengameart.org/content/antifareas-rpg-sprite-set-1-enlarged-w-transparent-background-fixed).
 
 ## Video Tutorials/Episodes
 
