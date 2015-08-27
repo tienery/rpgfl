@@ -19,3 +19,7 @@ Antifarea's spritesheets for character animations are licensed under CC-BY-3.0, 
 6. [Using Tilesheets Part 2 of 2](https://www.youtube.com/watch?v=642peKavdG0&list=PLvi6G1HrMyFJDCYFVwNPXFo8bB6ytkUb4&index=6)
 7. [Using CSV Data and starting work on Cameras](https://www.youtube.com/watch?v=fFK-wD6YAuE&list=PLvi6G1HrMyFJDCYFVwNPXFo8bB6ytkUb4&index=7)
 8. [Finishing up on Cameras](https://www.youtube.com/watch?v=1pk1TzSvA-s&list=PLvi6G1HrMyFJDCYFVwNPXFo8bB6ytkUb4&index=8)
+9. [Animations Part 1 of 4](https://www.youtube.com/watch?v=ZZXwmV_ZU4w&index=9&list=PLvi6G1HrMyFJDCYFVwNPXFo8bB6ytkUb4)
+10. [Animations Part 2 of 4](https://www.youtube.com/watch?v=eNLwyVbWz-c&index=10&list=PLvi6G1HrMyFJDCYFVwNPXFo8bB6ytkUb4)
+11. [Animations Part 3 of 4](https://www.youtube.com/watch?v=xR329GUZTn0&index=11&list=PLvi6G1HrMyFJDCYFVwNPXFo8bB6ytkUb4)
+12. [Animations Part 4 of 4](https://www.youtube.com/watch?v=rjghoav9unQ&index=12&list=PLvi6G1HrMyFJDCYFVwNPXFo8bB6ytkUb4)
