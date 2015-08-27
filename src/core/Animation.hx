@@ -65,8 +65,6 @@ class Animation extends Bitmap
         {
             getStateAnimate(stateName, startIndex);
             
-            bi.copyPixels(_spritesheet, new Rectangle(point.x, point.y, _cellWidth, _cellHeight), new Point(0, 0));
-            bitmapData = bi;
         }
     }
     
@@ -80,7 +78,7 @@ class Animation extends Bitmap
             
             _timer.repeatCount = repeat;
             _timer.start();
-            _timer.addEventListener(TimerEvent.TICK, nextAnimation);
+            _timer.addEventListener(TimerEvent.TIMER, nextAnimation);
         }
     }
     
@@ -95,7 +93,7 @@ class Animation extends Bitmap
         _currentStateLength = state.length;
         
         var first = state[startIndex];
-        var bi = new BitmapData();
+        var bi = new BitmapData(_cellWidth, _cellHeight);
         var point = _indexes[first];
         _currentIndex = startIndex;
         
