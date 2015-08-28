@@ -31,35 +31,24 @@ class Player extends Unit
     {
         if (KeyState.isKeyDown(Keyboard.W))
         {
-            anim.play("walk_up", 1, 0, true);
+            anim.update(deltaTime, "walk_up", 1, true);
             anim.y -= speed * deltaTime;
         }
-        else 
-            anim.stop();
-        
-        if (KeyState.isKeyDown(Keyboard.A))
+        else if (KeyState.isKeyDown(Keyboard.A))
         {
-            anim.play("walk_left", 1, 0, true);
+            anim.update(deltaTime, "walk_left", 1, true);
             anim.x -= speed * deltaTime;
         }
-        else 
-            anim.stop();
-        
-        if (KeyState.isKeyDown(Keyboard.S))
+        else if (KeyState.isKeyDown(Keyboard.S))
         {
-            anim.play("walk_down", 1, 0, true);
+            anim.update(deltaTime, "walk_down", 1, true);
             anim.y += speed * deltaTime;
         }
-        else 
-            anim.stop();
-            
-        if (KeyState.isKeyDown(Keyboard.D))
+        else if (KeyState.isKeyDown(Keyboard.D))
         {
-            anim.play("walk_right", 1, 0, true);
+            anim.update(deltaTime, "walk_right", 1, true);
             anim.x += speed * deltaTime;
         }
-        else
-            anim.stop();
     }
     
 }

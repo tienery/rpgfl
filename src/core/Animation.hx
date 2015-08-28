@@ -6,8 +6,7 @@ import openfl.display.BitmapData;
 import openfl.display.Tilesheet;
 import openfl.geom.Point;
 import openfl.Assets;
-import openfl.utils.Timer;
-import openfl.events.TimerEvent;
+import utils.CustomTimer;
 import haxe.Json;
 
 class Animation extends Bitmap
@@ -19,7 +18,7 @@ class Animation extends Bitmap
     public var states:Map<String, Array<Int>>;
     private var _cellWidth:Int;
     private var _cellHeight:Int;
-    private var _timer:Timer;
+    private var _timer:CustomTimer;
     private var _currentIndex:Int;
     private var _currentStateName:String;
     private var _currentStateLength:Int;
@@ -32,7 +31,7 @@ class Animation extends Bitmap
         
         _spritesheet = bitmapData;
         
-        _timer = new Timer(500);
+        _timer = new CustomTimer(5000);
     }
     
     public function init(path:String)
@@ -68,26 +67,24 @@ class Animation extends Bitmap
         }
     }
     
-    public function play(stateName:String, ?startIndex:Int=0, ?repeat:Int=0, ?goBack:Bool=false)
+    public function update(deltaTime:Float, stateName:String, ?startIndex:Int=0, ?goBack:Bool=false)
     {
         if (states.exists(stateName))
         {
             getStateAnimate(stateName, startIndex);
             
-            _currentIndex      = startIndex;
-            _currentStateName  = stateName;
-            _timer.repeatCount = repeat;
-            _goBack            = goBack;
-            _goingBack         = false;
+            _currentIndex = startIndex;
+            _goBack       = goBack;
+            _goingBack    = false;
             
-            _timer.start();
-            _timer.addEventListener(TimerEvent.TIMER, nextAnimation);
+            _timer.update(deltaTime);
+            _timer.tick.add(function(s)
+            {
+                nextAnimation(s); 
+            });
+            
+            _currentStateName  = stateName;
         }
-    }
-    
-    public function stop()
-    {
-        _timer.reset();
     }
     
     private function getStateAnimate(stateName:String, ?startIndex:Int=0)
@@ -96,7 +93,6 @@ class Animation extends Bitmap
         _currentStateLength = state.length;
         
         var first = state[startIndex];
-        trace(first);
         var bi = new BitmapData(_cellWidth, _cellHeight);
         var point = _indexes[first];
         
@@ -104,12 +100,11 @@ class Animation extends Bitmap
         bitmapData = bi;
     }
     
-    private function nextAnimation(e:TimerEvent)
+    private function nextAnimation(seconds:Int)
     {
         if (_currentIndex + 1 > _currentStateLength - 1)
         {
             if (_goBack) {
-                trace("decrement");
                 _goingBack = !_goingBack;
                 _currentIndex--;
             }
@@ -119,7 +114,6 @@ class Animation extends Bitmap
         else if (_currentIndex - 1 < 0)
         {
             if (_goBack) {
-                trace("increment");
                 _goingBack = !_goingBack;
                 _currentIndex++;
             }
@@ -130,12 +124,10 @@ class Animation extends Bitmap
         {
             if (_goingBack && _goBack)
             {
-                trace("decrement");
                 _currentIndex--;
             }
             else if (!_goingBack && _goBack)
             {
-                trace("increment");
                 _currentIndex++;
             }
             else
