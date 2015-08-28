@@ -1,21 +1,21 @@
-package;
+package core;
 
 import openfl.ui.Keyboard;
 import openfl.display.Stage;
 import openfl.events.KeyboardEvent;
+import openfl.Lib;
 
 class KeyState
 {
     
-    private static var stage:Stage;
     private static var _keys:Array<Bool> = [];
     
     public static function init()
     {
         for (i in 0...200) _keys.push(false);
         
-        stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
-        stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+        Lib.current.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+        Lib.current.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
     }
     
     private static function onKeyUp(e)
@@ -28,7 +28,7 @@ class KeyState
         _keys[e.keyCode] = true;
     }
     
-    public static function isKeyUp(keyCode:Int):Bool
+    public static function isKeyDown(keyCode:Int):Bool
     {
         return _keys[keyCode];
     }

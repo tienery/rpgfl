@@ -74,9 +74,12 @@ class Animation extends Bitmap
         {
             getStateAnimate(stateName, startIndex);
             
-            _currentStateName = stateName;
-            
+            _currentIndex      = startIndex;
+            _currentStateName  = stateName;
             _timer.repeatCount = repeat;
+            _goBack            = goBack;
+            _goingBack         = false;
+            
             _timer.start();
             _timer.addEventListener(TimerEvent.TIMER, nextAnimation);
         }
@@ -93,9 +96,9 @@ class Animation extends Bitmap
         _currentStateLength = state.length;
         
         var first = state[startIndex];
+        trace(first);
         var bi = new BitmapData(_cellWidth, _cellHeight);
         var point = _indexes[first];
-        _currentIndex = startIndex;
         
         bi.copyPixels(_spritesheet, new Rectangle(point.x, point.y, _cellWidth, _cellHeight), new Point(0, 0));
         bitmapData = bi;
@@ -103,25 +106,39 @@ class Animation extends Bitmap
     
     private function nextAnimation(e:TimerEvent)
     {
-        if (_currentIndex + 1 > _indexes.length - 1)
+        if (_currentIndex + 1 > _currentStateLength - 1)
         {
-            if (_goBack)
+            if (_goBack) {
+                trace("decrement");
                 _goingBack = !_goingBack;
+                _currentIndex--;
+            }
             else
                 _currentIndex = 0;
         }
         else if (_currentIndex - 1 < 0)
         {
-            if (_goBack)
+            if (_goBack) {
+                trace("increment");
                 _goingBack = !_goingBack;
+                _currentIndex++;
+            }
             else
                 _currentIndex = 0;
         }
         else
         {
             if (_goingBack && _goBack)
+            {
+                trace("decrement");
                 _currentIndex--;
-                else
+            }
+            else if (!_goingBack && _goBack)
+            {
+                trace("increment");
+                _currentIndex++;
+            }
+            else
                 _currentIndex++;
         }
             

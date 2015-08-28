@@ -4,6 +4,7 @@ import core.Camera;
 import core.Player;
 import core.TileMap;
 import core.Unit;
+import core.KeyState;
 import openfl.geom.Point;
 import openfl.geom.Rectangle;
 import openfl.utils.Timer;
@@ -45,6 +46,8 @@ class Main extends Sprite
         _baseWidth = Lib.current.stage.stageWidth;
         _baseHeight = Lib.current.stage.stageHeight;
         
+        KeyState.init();
+        
         _map = new TileMap(Assets.getBitmapData("img/tilesets/32x32_ortho_dungeon_tile_Denzi110515-1.png"));
         _map.init("info/dungeonTiles.json");
         _map.drawMapFromCsv("info/dungeonMap.json");
@@ -72,6 +75,8 @@ class Main extends Sprite
             var elapsed = Lib.getTimer();
             var deltaTime = elapsed - timeStarted;
             timeStarted = elapsed;
+            
+            _player.update(deltaTime);
         });
         
         Lib.current.stage.addEventListener(Event.RESIZE, function(e)
