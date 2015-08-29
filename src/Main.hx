@@ -13,24 +13,15 @@ import openfl.Lib;
 import openfl.events.KeyboardEvent;
 import openfl.ui.Keyboard;
 import openfl.events.Event;
-import openfl.display.Bitmap;
-import openfl.display.BitmapData;
 import openfl.Assets;
-import openfl.events.TimerEvent;
-import openfl.text.TextField;
-import openfl.text.TextFieldAutoSize;
-import openfl.text.TextFormat;
-import openfl.text.TextFieldType;
 
 class Main extends Sprite 
 {
     
     private var timeStarted:Int;
-    private var _render:BitmapData;
     private var _baseWidth:Int;
     private var _baseHeight:Int;
     private var _inited:Bool;
-    private var _txtField:TextField;
     private var _map:TileMap;
     private var _camera:Camera;
     private var _ratioX:Float;
@@ -38,6 +29,7 @@ class Main extends Sprite
     private var _ratioWidth:Float;
     private var _ratioHeight:Float;
     private var _player:Player;
+    private var _base:Sprite;
     
     public function new() 
     {
@@ -48,22 +40,28 @@ class Main extends Sprite
         
         KeyState.init();
         
+        _base = new Sprite();
+        
         _map = new TileMap(Assets.getBitmapData("img/tilesets/32x32_ortho_dungeon_tile_Denzi110515-1.png"));
         _map.init("info/dungeonTiles.json");
         _map.drawMapFromCsv("info/dungeonMap.json");
         
-        _player = new Player("img/spritesheets/healer_f.png", "info/playerAnimation.json");
-        _player.draw(_map, 64, 64);
+        _base.addChild(_map);
+        
+        
         
         var maxWidth = _map.offsetX * 15;
         var maxHeight = _map.offsetY * 12;
         
-        _camera = new Camera(_map, maxWidth, maxHeight);
-        _camera.x = _baseWidth / 2 - maxWidth / 2;
-        _camera.y = _baseHeight / 2 - maxHeight / 2;
-        _ratioX = _camera.x / _baseWidth;
-        _ratioY = _camera.y / _baseHeight;
-        _ratioWidth = maxWidth / _baseWidth;
+        _player = new Player("img/spritesheets/healer_f.png", "info/playerAnimation.json");
+        _player.draw(_base, maxWidth / 2 - _player.anim.width / 2, maxHeight / 2 - _player.anim.height / 2);
+        
+        _camera      = new Camera(_base, maxWidth, maxHeight);
+        _camera.x    = _baseWidth / 2 - maxWidth / 2;
+        _camera.y    = _baseHeight / 2 - maxHeight / 2;
+        _ratioX      = _camera.x / _baseWidth;
+        _ratioY      = _camera.y / _baseHeight;
+        _ratioWidth  = maxWidth / _baseWidth;
         _ratioHeight = maxHeight / _baseHeight;
         
         addChild(_camera);
@@ -77,6 +75,7 @@ class Main extends Sprite
             timeStarted = elapsed;
             
             _player.update(deltaTime);
+            moveMap(deltaTime);
         });
         
         Lib.current.stage.addEventListener(Event.RESIZE, function(e)
@@ -93,6 +92,26 @@ class Main extends Sprite
             }
         });
         
+    }
+    
+    private function moveMap(deltaTime:Float)
+    {
+        if (KeyState.isKeyDown(Keyboard.W))
+        {
+            _map.y += deltaTime * _player.speed;
+        }
+        else if (KeyState.isKeyDown(Keyboard.S))
+        {
+            _map.y -= deltaTime * _player.speed;
+        }
+        else if (KeyState.isKeyDown(Keyboard.A))
+        {
+            _map.x += deltaTime * _player.speed;
+        }
+        else if (KeyState.isKeyDown(Keyboard.D))
+        {
+            _map.x -= deltaTime * _player.speed;
+        }
     }
     
 }

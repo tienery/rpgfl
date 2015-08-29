@@ -1,7 +1,5 @@
 package core;
 
-import openfl.ui.Keyboard;
-import openfl.display.Stage;
 import openfl.events.KeyboardEvent;
 import openfl.Lib;
 
