@@ -30,6 +30,8 @@ class Main extends Sprite
     private var _ratioHeight:Float;
     private var _player:Player;
     private var _base:Sprite;
+    private var _relativePlayerX:Float;
+    private var _relativePlayerY:Float;
     
     public function new() 
     {
@@ -50,11 +52,11 @@ class Main extends Sprite
         
         
         
-        var maxWidth = _map.offsetX * 15;
-        var maxHeight = _map.offsetY * 12;
+        var maxWidth = _map.cellWidth * 15;
+        var maxHeight = _map.cellHeight * 12;
         
         _player = new Player("img/spritesheets/healer_f.png", "info/playerAnimation.json");
-        _player.draw(_base, maxWidth / 2 - _player.anim.width / 2, maxHeight / 2 - _player.anim.height / 2);
+        _player.draw(_map, _base, maxWidth / 2 - _player.anim.width / 2, maxHeight / 2 - _player.anim.height / 2);
         
         _camera      = new Camera(_base, maxWidth, maxHeight);
         _camera.x    = _baseWidth / 2 - maxWidth / 2;
@@ -63,6 +65,9 @@ class Main extends Sprite
         _ratioY      = _camera.y / _baseHeight;
         _ratioWidth  = maxWidth / _baseWidth;
         _ratioHeight = maxHeight / _baseHeight;
+        
+        _relativePlayerX = _player.anim.x;
+        _relativePlayerY = _player.anim.y;
         
         addChild(_camera);
         
@@ -75,7 +80,8 @@ class Main extends Sprite
             timeStarted = elapsed;
             
             _player.update(deltaTime);
-            moveMap(deltaTime);
+            _camera.move((-_relativePlayerX + _player.anim.x) * _camera.currentRatioWidth, 
+                    (-_relativePlayerY + _player.anim.y) * _camera.currentRatioHeight);
         });
         
         Lib.current.stage.addEventListener(Event.RESIZE, function(e)
@@ -92,26 +98,6 @@ class Main extends Sprite
             }
         });
         
-    }
-    
-    private function moveMap(deltaTime:Float)
-    {
-        if (KeyState.isKeyDown(Keyboard.W))
-        {
-            _map.y += deltaTime * _player.speed;
-        }
-        else if (KeyState.isKeyDown(Keyboard.S))
-        {
-            _map.y -= deltaTime * _player.speed;
-        }
-        else if (KeyState.isKeyDown(Keyboard.A))
-        {
-            _map.x += deltaTime * _player.speed;
-        }
-        else if (KeyState.isKeyDown(Keyboard.D))
-        {
-            _map.x -= deltaTime * _player.speed;
-        }
     }
     
 }
