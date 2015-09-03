@@ -13,18 +13,28 @@ class Player extends Unit
     private var x:Float;
     private var y:Float;
     
+    public var right(get, null):Float;
+    function get_right() return x + anim.width;
+    
+    public var bottom(get, null):Float;
+    function get_bottom() return y + anim.height;
+    
     private var _currentTileX:Int;
     public var currentTileX(get, null):Int;
     function get_currentTileX()
     {
-        return _currentTileX = Math.ceil(x / mapRef.cellWidth);
+        var xPos = x / mapRef.cellWidth;
+        if (Math.round(xPos) < Math.ceil(xPos))
+            return _currentTileX = Math.floor(xPos);
+        else
+            return _currentTileX = Math.ceil(xPos);
     }
     
     private var _currentTileY:Int;
     public var currentTileY(get, null):Int;
     function get_currentTileY()
     {
-        return _currentTileY = Math.ceil((y - 5) / mapRef.cellWidth);
+       return _currentTileY = Math.ceil((y - 5) / mapRef.cellHeight);
     }
     
     public function new(imgSrc:String, spritesheetPath:String) 
@@ -57,8 +67,15 @@ class Player extends Unit
             anim.update(deltaTime, "walk_up", 1, true);
             
             y -= deltaTime * speed;
-            
-            anim.y = y;
+            if (mapRef.canGoUp(currentTileX, currentTileY))
+                anim.y = y;
+            else
+            {
+                if (!(y + 5 <= currentTileY * mapRef.cellHeight))
+                    anim.y = y;
+                else
+                    y = anim.y;
+            }
         }
         else if (KeyState.isKeyDown(Keyboard.S))
         {
@@ -66,7 +83,16 @@ class Player extends Unit
             
             y += deltaTime * speed;
             
-            anim.y = y;
+            
+            if (mapRef.canGoDown(currentTileX, currentTileY))
+                anim.y = y;
+            else
+            {
+                if (!(bottom >= currentTileY * mapRef.cellHeight - mapRef.cellHeight))
+                    anim.y = y;
+                else
+                    y = anim.y;
+            }
         }
         else if (KeyState.isKeyDown(Keyboard.A))
         {
@@ -74,7 +100,15 @@ class Player extends Unit
             
             x -= deltaTime * speed;
             
-            anim.x = x;
+            if (mapRef.canGoLeft(currentTileX, currentTileY))
+                anim.x = x;
+            else
+            {
+                if (!(anim.x <= currentTileX * mapRef.cellWidth))
+                    anim.x = x;
+                else
+                    x = anim.x;
+            }
         }
         else if (KeyState.isKeyDown(Keyboard.D))
         {
@@ -82,7 +116,15 @@ class Player extends Unit
             
             x += deltaTime * speed;
             
-            anim.x = x;
+            if (mapRef.canGoRight(currentTileX, currentTileY))
+                anim.x = x;
+            else
+            {
+                if (!(right >= currentTileX * mapRef.cellWidth - mapRef.cellWidth))
+                    anim.x = x;
+                else
+                    x = anim.x;
+            }
         }
         
         trace(currentTileX, currentTileY);

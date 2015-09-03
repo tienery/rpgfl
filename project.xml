@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
-	<!-- NMML reference: https://gist.github.com/1763850 -->
-	
-	<!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
-	<meta title="RPG Tutorial" package="RPGTutorial" version="1.0.0" company="Colour Multimedia Enterprises" />
-	
-	<!-- output -->
-	<app main="Main" file="RPGTutorial" path="bin" />
-	
-	<window background="#000000" />
-	<window fps="60" if="flash" />
-	<window width="848" height="480" unless="mobile" />
-	<window orientation="landscape" vsync="false" antialiasing="0" if="cpp" />
-	
-	<!-- classpath, haxe libs -->
-	<source path="src" />
-	<haxelib name="openfl" />
-	<haxelib name="actuate" />
-	<haxelib name="msignal" />
-	
-	<!-- assets -->
-	<icon path="assets/openfl.svg" />
-	<assets path="assets/img" rename="img" include="*.png|*.jpg" />
-	<assets path="assets/font" rename="font" include="*.ttf" unless="html5" />
-	<assets path="assets/font" rename="font" include="*.ttf|*.eot|*.woff|*.woff2|*.svg" if="html5" />
-	<assets path="assets/sound" rename="sfx" include="*.ogg|*.wav" />
-	<assets path="assets/audio" rename="audio" include="*.mp3" if="flash" />
-	<assets path="assets/audio" rename="audio" include="*.ogg" unless="flash" />
-	<assets path="assets/info" rename="info" include="*.txt|*.json" />
-	
-	<!-- optimize output
-	<haxeflag name="-dce full" /> -->
-	
+    <!-- NMML reference: https://gist.github.com/1763850 -->
+    
+    <!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
+    <meta title="RPG Tutorial" package="RPGTutorial" version="1.0.0" company="Colour Multimedia Enterprises" />
+    
+    <!-- output -->
+    <app main="Main" file="RPGTutorial" path="bin" />
+    
+    <window background="#000000" fps="120" />
+    <window width="848" height="480" unless="mobile" />
+    <window orientation="landscape" vsync="false" antialiasing="0" if="cpp" />
+    
+    <!-- classpath, haxe libs -->
+    <source path="src" />
+    <haxelib name="openfl" />
+    <haxelib name="msignal" />
+    
+    <!-- assets -->
+    <icon path="assets/openfl.svg" />
+    <assets path="assets/img" rename="img" include="*.png|*.jpg" />
+    <assets path="assets/font" rename="font" include="*.ttf" unless="html5" />
+    <assets path="assets/font" rename="font" include="*.ttf|*.eot|*.woff|*.woff2|*.svg" if="html5" />
+    <assets path="assets/sound" rename="sfx" include="*.ogg|*.wav" />
+    <assets path="assets/audio" rename="audio" include="*.mp3" if="flash" />
+    <assets path="assets/audio" rename="audio" include="*.ogg" unless="flash" />
+    <assets path="assets/info" rename="info" include="*.txt|*.json" />
+    
+    <!-- optimize output
+    <haxeflag name="-dce full" /> -->
+    
 </project>
